@@ -1,5 +1,5 @@
 {
-  "name": "@jhtrauntvein/basic-logic-gates",
+  "name": "jhtrauntvein-basic-logic-gates",
   "version": "1.0.0",
   "description": "Javascript Classes that Emulate Basic Logic Gates",
   "main": "index.js",
