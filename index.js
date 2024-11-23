@@ -1,11 +1,11 @@
-const { TruthTableGate } = require("src/truth-table-gate.js");
+const { TruthTableGate } = require("./truth-table-gate.js");
 const {
    NotGate,
    AndGate,
    OrGate,
    NandGate,
    NorGate
-} = require("src/basic-gates.js");
+} = require("./basic-gates.js");
 
 module.exports = {
    TruthTableGate,
