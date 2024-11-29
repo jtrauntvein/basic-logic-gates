@@ -1,5 +1,5 @@
 const { describe, test, expect } = require("@jest/globals");
-const { OrGate, NorGate } = require("../src/basic-gates.js");
+const { OrGate, NorGate } = require("../basic-gates.js");
 
 describe("OR gate tests", () => {
    test("logic values", () => {

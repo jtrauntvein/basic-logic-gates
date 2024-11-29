@@ -1,4 +1,6 @@
-const { TruthTableGate } = require("./truth-table-gate.js");
+const { 
+   TruthTableGate,
+   connect_gates } = require("./truth-table-gate.js");
 const {
    NotGate,
    AndGate,
@@ -9,6 +11,7 @@ const {
 
 module.exports = {
    TruthTableGate,
+   connect_gates,
    NotGate,
    AndGate,
    OrGate,
