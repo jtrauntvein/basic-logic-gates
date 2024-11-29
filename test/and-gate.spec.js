@@ -1,5 +1,5 @@
 const { describe, test, expect } = require("@jest/globals");
-const { AndGate, NandGate } = require("../src/basic-gates.js");
+const { AndGate, NandGate } = require("../basic-gates.js");
 
 describe("and gate tests", () => {
    test("logic values", () => {

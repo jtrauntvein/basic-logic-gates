@@ -1,5 +1,6 @@
-const { AndGate, NotGate } = require("../src/basic-gates.js");
+const { AndGate, NotGate } = require("../basic-gates.js");
 const { describe, test, expect } = require("@jest/globals");
+const { connect_gates } = require("../truth-table-gate.js");
 
 class ComposedGate {
    #input_gate;
@@ -8,7 +9,7 @@ class ComposedGate {
    constructor() {
       this.#input_gate = new AndGate();
       this.#output_gate = new NotGate();
-      this.#input_gate.on((value, channel) => this.#output_gate.set(value, 0));
+      connect_gates(this.#input_gate, 0, this.#output_gate, 0);
    }
 
    set(value, channel) {

@@ -2,6 +2,7 @@ const { TruthTableGate } = require("./truth-table-gate");
 
 /**
  * Defines the Not (logical complement) operator
+ * @type {import("./truth-table-gate").GateInterface} Implements the gate interface
  */
 class NotGate extends TruthTableGate {
    constructor() {
@@ -15,6 +16,7 @@ class NotGate extends TruthTableGate {
 
 /**
  * Defines a two input AND gate operator
+ * @type {import("./truth-table-gate").GateInterface} Implements the gate interface
  */
 class AndGate extends TruthTableGate {
    constructor() {
@@ -30,6 +32,7 @@ class AndGate extends TruthTableGate {
 
 /**
  * Defines a two input OR gate operator
+ * @type {import("./truth-table-gate").GateInterface} Implements the Gate interface
  */
 class OrGate extends TruthTableGate {
    constructor() {
@@ -45,6 +48,7 @@ class OrGate extends TruthTableGate {
 
 /**
  * Defines a two input XOR gate
+ * @type {import("./truth-table-gate").GateInterface} implements the Gate interface
  */
 class XorGate extends TruthTableGate {
    constructor() {
@@ -60,6 +64,7 @@ class XorGate extends TruthTableGate {
 
 /**
  * Defines a two input NAND gate
+ * @type {import("./truth-table-gate").GateInterface} implements the Gate interface
  */
 class NandGate extends TruthTableGate {
    constructor() {
@@ -75,6 +80,7 @@ class NandGate extends TruthTableGate {
 
 /**
  * Defines a two input NOR gate
+ * @type {import("./truth-table-gate").GateInterface} implements the Gate interface
  */
 class NorGate extends TruthTableGate {
    constructor() {

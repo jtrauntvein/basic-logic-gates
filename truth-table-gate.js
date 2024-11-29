@@ -14,11 +14,40 @@
  */
 
 /**
+ * @callback SetMethod
+ * @param {boolean} value Specifies the value for the gate input
+ * @param {number} channel specifies the input channel id
+ * @return {boolean[]} Returns the values of the output channels as a result of the state change
+ */
+
+/**
+ * @callback OnMethod
+ * @param {import("./truth-table-gate").OutputHandlerType} handler specifies the function that will be called
+ * when the gate state has been changed
+ * @param {number?} channel specifies the identifier for the output channel on the gate
+ */
+
+/**
+ * @callback EvaluateMethod
+ * @return {boolean[]} returns the current output channel values for this gate
+ */
+
+/**
+ * @typedef GateInterface
+ * @property {SetMethod} set Sets the value of a given input channel on the gate
+ * @property {OnMethod} on registers a handler function that is called when the specified
+ * gate output channel changes state
+ * @property {EvaluateMethod} evaluate evaluates the state of gate output channels based upon
+ * the current state of gate inputs
+ */
+
+/**
  * @typedef {OutputHandlerType[]} OutputHandlerVector
  */
 
 /**
  * Defines a base class that uses a truth table lookup to resolve basic logic operators
+ * @class {GateInterface} implements the basic gate interface
  */
 class TruthTableGate {
    /**
@@ -121,6 +150,22 @@ class TruthTableGate {
    }
 }
 
+/**
+ * Connects the output of a source gate channel to the input of a dest gate channel by setting
+ * up a callback handler on the source gate channel to set the value of the dest gate channel.
+ * Also ensures that the current source output value is set on the dest input channel
+ * @param {GateInterface} source specifies the source gate
+ * @param {number} source_channel specifies the output channel of the source to use
+ * @param {GateInterface} dest specifies the destination gate whose input will be set
+ * @param {number} dest_channel specifies the input channel of the destination gate
+ */
+function connect_gates(source, source_channel, dest, dest_channel) {
+   const source_state = source.evaluate();
+   source.on((value) => dest.set(value, dest_channel));
+   dest.set(source_state[source_channel], dest_channel);
+}
+
 module.exports = {
-   TruthTableGate
+   TruthTableGate,
+   connect_gates
 }
