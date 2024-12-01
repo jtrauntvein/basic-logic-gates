@@ -66,6 +66,11 @@ class TruthTableGate {
    #outputs;
 
    /**
+    * @property {boolean} #first_set set to true if the set() function has been called for this gate
+    */
+   #first_set;
+
+   /**
     * constructor
     * @param {TruthTableType} truth_table specifies the truth table that this gate will use to calculate the logical function
     * @throws {Error} throws an error for any of the following conditions:
@@ -76,6 +81,7 @@ class TruthTableGate {
     */
    constructor(truth_table) {
       this.#truth_table = truth_table;
+      this.#first_set = false;
       if(!Array.isArray(truth_table))
          throw Error("invalid truth table type");
       if(truth_table.length === 0)
@@ -113,7 +119,8 @@ class TruthTableGate {
       let outputs;
       if(channel >= this.#inputs.length)
          throw Error("invalid input channel number");
-      if(this.#inputs[channel] !== value) {
+      if(this.#inputs[channel] !== value || !this.#first_set) {
+         this.#first_set = true;
          this.#inputs[channel] = value;
          outputs = this.evaluate();
          outputs.forEach((out_value, out_channel) => {

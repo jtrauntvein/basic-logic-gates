@@ -37,10 +37,10 @@ describe("and gate tests", () => {
       let changed_count = 0;
       gate.on(() => ++changed_count);
       gate.set(false, 0);
-      expect(changed_count).toBe(0);
-      gate.set(false, 1);
-      expect(changed_count).toBe(0);
-      gate.set(true, 0);
       expect(changed_count).toBe(1);
+      gate.set(false, 1);
+      expect(changed_count).toBe(1);
+      gate.set(true, 0);
+      expect(changed_count).toBe(2);
    });
 });

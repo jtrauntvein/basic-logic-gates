@@ -1,6 +1,6 @@
 {
   "name": "jhtrauntvein-basic-logic-gates",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Javascript Classes that Emulate Basic Logic Gates",
   "main": "index.js",
   "scripts": {
