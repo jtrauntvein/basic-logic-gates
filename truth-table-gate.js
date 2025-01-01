@@ -14,6 +14,41 @@
  */
 
 /**
+ * @callback SetMethod
+ * @param {boolean} value Specifies the value for the gate input
+ * @param {number} channel specifies the input channel id
+ * @return {boolean[]} Returns the values of the output channels as a result of the state change
+ */
+
+/**
+ * @callback OnMethod
+ * @param {import("./truth-table-gate").OutputHandlerType} handler specifies the function that will be called
+ * when the gate state has been changed
+ * @param {number?} channel specifies the identifier for the output channel on the gate
+ */
+
+/**
+ * @callback EvaluateMethod
+ * @return {boolean[]} returns the current output channel values for this gate
+ */
+/**
+ * @callback EnabledMethod
+ * @return {boolean} set to true if the output is enabled for this gate. if this method
+ * is overloaded to return false, output handlers will not be called when an input changes
+ */
+
+/**
+ * @typedef GateInterface
+ * @property {SetMethod} set Sets the value of a given input channel on the gate
+ * @property {OnMethod} on registers a handler function that is called when the specified
+ * gate output channel changes state
+ * @property {EvaluateMethod} evaluate evaluates the state of gate output channels based upon
+ * the current state of gate inputs
+ * @property {EnabledMethod} is_enabled called to determine whether output handlers should be 
+ * called when the state of an input has been changed.
+ */
+
+/**
  * @typedef {OutputHandlerType[]} OutputHandlerVector
  */
 
@@ -87,9 +122,7 @@ class TruthTableGate {
       if(this.#inputs[channel] !== value) {
          this.#inputs[channel] = value;
          outputs = this.evaluate();
-         outputs.forEach((out_value, out_channel) => {
-            this.#outputs[out_channel].forEach((handler) => handler(out_value, out_channel, this));
-         });
+         handle_outputs(outputs);
       }
       return outputs;
    }
@@ -119,6 +152,40 @@ class TruthTableGate {
          throw Error("logic case not found");
       return match.outputs;
    }
+
+   /**
+    * @return {boolean} returns true to indicate that the output is enabled.
+    */
+   output_enabled() {
+      return true;
+   }
+
+   /**
+    * Sends the specified outputs array for all registered handlers
+    * @param {boolean[]} outputs specifies the output values to report
+    */
+   handle_outputs(outputs) {
+      if(this.output_enabled()) {
+         outputs.forEach((out_value, out_channel) => {
+            this.#outputs[out_channel].forEach((handler) => handler(out_value, out_channel, this));
+         });
+      }
+   }
+}
+
+/**
+ * Connects the output of a source gate channel to the input of a dest gate channel by setting
+ * up a callback handler on the source gate channel to set the value of the dest gate channel.
+ * Also ensures that the current source output value is set on the dest input channel
+ * @param {GateInterface} source specifies the source gate
+ * @param {number} source_channel specifies the output channel of the source to use
+ * @param {GateInterface} dest specifies the destination gate whose input will be set
+ * @param {number} dest_channel specifies the input channel of the destination gate
+ */
+function connect_gates(source, source_channel, dest, dest_channel) {
+   const source_state = source.evaluate();
+   source.on((value) => dest.set(value, dest_channel));
+   dest.set(source_state[source_channel], dest_channel);
 }
 
 module.exports = {
