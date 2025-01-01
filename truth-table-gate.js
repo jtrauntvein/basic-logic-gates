@@ -54,6 +54,7 @@
 
 /**
  * Defines a base class that uses a truth table lookup to resolve basic logic operators
+ * @class {GateInterface} implements the basic gate interface
  */
 class TruthTableGate {
    /**
@@ -189,5 +190,6 @@ function connect_gates(source, source_channel, dest, dest_channel) {
 }
 
 module.exports = {
-   TruthTableGate
+   TruthTableGate,
+   connect_gates
 }

@@ -1,4 +1,4 @@
-const { TruthTableGate } = require("../src/truth-table-gate.js");
+const { TruthTableGate } = require("../truth-table-gate.js");
 const { describe, test, expect } = require("@jest/globals");
 
 describe("test error handling for basic truth table gate", () => {

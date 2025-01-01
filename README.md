@@ -16,6 +16,7 @@ operations.
   - [2.5. class `NandGate`](#25-class-nandgate)
   - [2.6. class `NorGate`](#26-class-norgate)
   - [2.7. class `XorGate`](#27-class-xorgate)
+  - [2.8. function `connect_gates()`](#28-function-connect_gates)
 - [3. Building Composite Gates](#3-building-composite-gates)
 
 
@@ -116,6 +117,16 @@ The `XorGate` class extends class `TruthTableGate`, has two input channels, and 
 that evaluates to the logical XOR operator.  This means that it is asserted only when one, but not both,
 of its input channels are asserted.
 
+### 2.8. function `connect_gates()`
+
+Can be called to "connect" an output channel of a source gate by setting a handler for that source
+that will set the value of the dest input channel.  This function has the following parameters:
+
+* `source (GateInterface, required)`: specifies the source gate
+* `source_channel (number, required))`: specifies the output channel for the source gate
+* `dest (GateInterface, required)`: specifies the output gate
+* `dest_channel (number, required)`: specifies the input channel id for the dest gate
+
 ## 3. Building Composite Gates
 
 More complex logical function gates can be constructed by creating an object that composes basic 
@@ -133,7 +144,7 @@ class AndGate4 {
       this.#input_gates = [ new AndGate(), new AndGate() ];
       this.#output_gate = new AndGate();
       this.#input_gates.forEach((gate, gate_idx) => {
-         gate.on((value) => this.#output_gate.set(value, gate_idx));
+         connect_gates(gate, 0, this.#output_gate, 0);
       });
    }
 
@@ -146,6 +157,10 @@ class AndGate4 {
 
    on(handler, channel) {
       this.#output_gate.on(handler, channel);
+   }
+
+   evaluate() {
+      return this.#output_gate.evaluate();
    }
 }
 ```
