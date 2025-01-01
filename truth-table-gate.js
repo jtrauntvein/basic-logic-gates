@@ -36,6 +36,11 @@
  * @return {boolean} set to true if the output is enabled for this gate. if this method
  * is overloaded to return false, output handlers will not be called when an input changes
  */
+/**
+ * @callback GetInputMethod
+ * @param {number} channel specifies the input channel to read
+ * @return {boolean} returns the value for the given channel.
+ */
 
 /**
  * @typedef GateInterface
@@ -46,6 +51,7 @@
  * the current state of gate inputs
  * @property {EnabledMethod} is_enabled called to determine whether output handlers should be 
  * called when the state of an input has been changed.
+ * @property {GetInputMethod} get_input called to return the cached value for the givern input channel
  */
 
 /**
@@ -159,6 +165,14 @@ class TruthTableGate {
     */
    output_enabled() {
       return true;
+   }
+
+   /**
+    * @return {boolean} returns true if the cached input for the given channel is set
+    * @param {number} channel specifies the input channel to read
+    */
+   get_input(channel) {
+      return this.#inputs[channel];
    }
 
    /**
