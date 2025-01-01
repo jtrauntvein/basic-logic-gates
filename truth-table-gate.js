@@ -129,7 +129,7 @@ class TruthTableGate {
       if(this.#inputs[channel] !== value) {
          this.#inputs[channel] = value;
          outputs = this.evaluate();
-         handle_outputs(outputs);
+         this.handle_outputs(outputs);
       }
       return outputs;
    }
