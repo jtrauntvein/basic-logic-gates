@@ -15,8 +15,9 @@
 
 /**
  * @callback SetMethod
- * @param {boolean} value Specifies the value for the gate input
- * @param {number} channel specifies the input channel id
+ * @param {boolean | boolean[]} value Specifies the value fora single gate input or an array of values for multiple
+ * gate inputs.
+ * @param {number?} channel specifies the input channel id
  * @return {boolean[]} Returns the values of the output channels as a result of the state change
  */
 
@@ -118,16 +119,36 @@ class TruthTableGate {
    /**
     * Sets the value the specified input channel.  If the channel value has changed, the gate
     * will be evaluated and all handlers on output channels will be called
-    * @param {boolean} value specifies the boolean value for the input channel
-    * @param {number} channel specifies the input channel number
+    * @param {boolean | boolean[]} value specifies the boolean value for the input channel or an array for
+    * multiple input channels
+    * @param {number?} channel specifies the input channel number
     * @return {boolean[]} returns the matching outputs
     */
    set(value, channel) {
       let outputs;
-      if(channel >= this.#inputs.length)
-         throw Error("invalid input channel number");
-      if(this.#inputs[channel] !== value) {
-         this.#inputs[channel] = value;
+      let changed = false;
+      if(Array.isArray(value)) {
+         for(let i = 0; i < value.length; ++i) {
+            if(i < this.#inputs.length) {
+               if(value[i] !== this.#inputs[i]) {
+                  this.#inputs[i] = value[i];
+                  changed = true;
+               }
+            }
+            else {
+               break;
+            }
+         }
+      }
+      else {
+         if(channel >= this.#inputs.length)
+            throw Error("invalid input channel number");
+         if(this.#inputs[channel] !== value) {
+            changed = true;
+            this.#inputs[channel] = value;
+         }
+      }
+      if(changed) {
          outputs = this.evaluate();
          this.handle_outputs(outputs);
       }

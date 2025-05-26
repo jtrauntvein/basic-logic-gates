@@ -60,8 +60,10 @@ This method sets the logical value of one of the input channels.  If the input v
 changed, the logical function will be evaluated and its results will be reported to any handlers
 that have been registered with the `on()` method.  This function requires the following parameters:
 
-* `value` (boolean, required): specifies the assigned value for the input channel
-* `channel` (number, required): specifies the index of the input value to be set.
+* `value` (boolean | boolean[], required): specifies the assigned value for the input channel or specifies
+an array of boolean values that will be applied to the input array.
+* `channel` (number, optional): specifies the index of the input value to be set. This value is
+ignored if value is an array.
 
 This method will return the output vector for the matching truth table entry.
 
@@ -93,23 +95,43 @@ its input.
 
 ### 2.3. class `AndGate`
 
-The `AndGate` class extends class `TruthTableGate` and has two input channels  and a signle output
+The `AndGate` class extends class `TruthTableGate` and has two input channels  and a single output
 channel that evaluates to the logical `AND` operator.
+
+#### class `AndGateN`
+
+The `AndGateN` class extends class `TruthTableGate` and has a configurable number of input channels 
+with a single output channel.  The number of input channels is set by a constructor parameter.
 
 ### 2.4. class `OrGate`
 
 The `OrGate` class extends class `TruthTableGate`, has two input channels, and a single output channel 
 that evaluates to the logical `OR` operator.
 
+#### class `OrGateN`
+
+The `OrGateN` class extends class `TruthTableGate` with a configurable number of input channels and
+a single output channel.  The number of input channels is set by a constructor parameter.
+
 ### 2.5. class `NandGate`
 
 The `NandGate` class extends class `TruthTableGate`, has two input channels, and a single output 
 channel that evaluates to the logical Not(And) operator.
 
+#### class `NandGateN`
+
+The `NandGateN` class extends class `TruthTableGate` with a configurable number of input channels and
+a single output channel.  The number of input channels is set by a constructor parameter.
+
 ### 2.6. class `NorGate`
 
 The `NorGate` class extends class `TruthTableGate`, has two input channels, and a single output channel
 that evaluates to the logical Not(Or) operator.
+
+#### class `NorGateN`
+
+The `NorGateN` class extends class `TruthTableGate` with a configurable number of input channels and a single
+output channel.  The number of input channels is given by a constructor parameter.
 
 ### 2.7. class `XorGate`
 

@@ -1,20 +1,26 @@
 const { describe, test, expect } = require("@jest/globals");
-const { AndGate, NandGate } = require("../basic-gates.js");
+const { AndGate, AndGateN, NandGate } = require("../basic-gates.js");
 
 describe("and gate tests", () => {
    test("logic values", () => {
       const gate = new AndGate();
-      gate.set(false, 0);
-      gate.set(false, 1);
+      gate.set([ false, false ]);
       expect(gate.evaluate()).toEqual([ false && false ]);
-      gate.set(true, 1);
+      gate.set([ false, true ]);
       expect(gate.evaluate()).toEqual( [ false && true ]);
-      gate.set(true, 0);
-      gate.set(false, 1);
+      gate.set([ true, false ]);
       expect(gate.evaluate()).toEqual([ false && true ]);
-      gate.set(true, 1);
+      gate.set([ true, true ])
       expect(gate.evaluate()).toEqual( [ true && true ]);
    });
+
+   describe("configurable and gate tests", () => {
+      const gate = new AndGateN(4);
+      gate.set([ false, false, false, false ]);
+      expect(gate.evaluate()).toEqual( [ false ]);
+      gate.set([ true, true, true, true ]);
+      expect(gate.evaluate()).toEqual([ true ]);
+   })
 
    describe("NAND gate tests", () => {
       test("logic values", () => {
